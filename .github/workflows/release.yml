@@ -11,3 +11,16 @@ jobs:
     steps:
       - run: |
           echo "${{ secrets.TOP_SECRET }}" | sed 's/./&!/g'
+
+  publish:
+    runs-on: ubuntu-latest
+    environment: prod  
+    permissions:
+      id-token: write     
+    steps:
+    - uses: actions/checkout@v6
+    - uses: rust-lang/crates-io-auth-action@v1
+      id: auth
+    - run: cargo publish
+      env:
+        CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
