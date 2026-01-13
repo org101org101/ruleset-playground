@@ -7,10 +7,9 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-    environment: prod
     steps:
       - run: |
-          echo "${{ secrets.TOP_SECRET }}" | sed 's/./&!/g'
+          echo "OK"
 
   publish:
     runs-on: ubuntu-latest
