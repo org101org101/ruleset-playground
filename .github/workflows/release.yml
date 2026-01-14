@@ -7,13 +7,13 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-    environment: prod
     steps:
       - run: |
           echo "OK"
 
   publish:
     runs-on: ubuntu-latest
+    environment: prod
     needs: main
     permissions:
       id-token: write     
