@@ -1,0 +1,8 @@
+[package]
+name = "ruleset-playground"
+version = "0.4.7"
+edition = "2024"
+license = "MIT"
+description = "playground"
+
+[dependencies]

@@ -5,3 +5,7 @@ version = 4
 [[package]]
 name = "ruleset-playground"
 version = "0.4.7"
+
+[[package]]
+name = "ruleset-playground-derive"
+version = "0.1.0"
