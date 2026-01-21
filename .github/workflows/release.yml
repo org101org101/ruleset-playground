@@ -16,17 +16,19 @@ jobs:
     needs: main
     permissions:
       id-token: write     
+      content: write
     steps:
-    - uses: actions/create-github-app-token@v2
-      id: app-token
-      with:
-        app-id: ${{ vars.APP_ID }}
-        private-key: ${{ secrets.PRIVATE_KEY }}
+    # - uses: actions/create-github-app-token@v2
+    #   id: app-token
+    #   with:
+    #     app-id: ${{ vars.APP_ID }}
+    #     private-key: ${{ secrets.PRIVATE_KEY }}
 
     - uses: actions/checkout@v6
       with:
-        token: ${{ steps.app-token.outputs.token }}
-        persist-credentials: false
+        # token: ${{ steps.app-token.outputs.token }}
+        # persist-credentials: false
+        token: ${{ secrets.GITHUB_TOKEN }}
     
     - run: |
         tag="v$(cargo metadata --format-version 1 --no-deps | jq -r .packages[0].version)"
