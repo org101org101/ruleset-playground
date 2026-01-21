@@ -16,7 +16,7 @@ jobs:
     needs: main
     permissions:
       id-token: write     
-      content: write
+      contents: write
     steps:
     # - uses: actions/create-github-app-token@v2
     #   id: app-token
