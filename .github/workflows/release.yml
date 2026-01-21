@@ -3,12 +3,16 @@ name: Release
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   main:
     runs-on: ubuntu-latest
     steps:
       - run: |
           echo "OK"
+
 
   publish:
     runs-on: ubuntu-latest
