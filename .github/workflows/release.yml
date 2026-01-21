@@ -2,13 +2,44 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: "git ref to tag"
+        required: true
+        type: string
 
 jobs:
   main:
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+      ref: ${{ steps.ref.outputs.ref }}
     steps:
-      - run: |
-          echo "OK"
+      - name: Resolve ref
+        id: ref
+        run: |
+          ref="${{ inputs.ref }}"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "Ref: $ref" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.ref.outputs.ref }}
+
+      - name: Compute tag
+        id: tag
+        run: |
+          tag="v$(cargo metadata --format-version 1 --no-deps | jq -r .packages[0].version)"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Tag: $tag" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check tag does not exist
+        run: |
+          tag="${{ steps.tag.outputs.tag }}"
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+            echo "Tag already exists: $tag. Please bump the version first (or delete the existing tag) and retry."
+            exit 1
+          fi
 
   publish:
     runs-on: ubuntu-latest
@@ -34,10 +65,11 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           persist-credentials: false
+          ref: ${{ needs.main.outputs.ref }}
       
       - run: |
-          tag="v$(cargo metadata --format-version 1 --no-deps | jq -r .packages[0].version)"
-          git tag "$tag"
+          tag="${{ needs.main.outputs.tag }}"
+          git tag -a "$tag" -m "Release $tag"
           git push --tags
 
       - uses: rust-lang/crates-io-auth-action@v1
