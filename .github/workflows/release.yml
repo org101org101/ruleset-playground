@@ -9,7 +9,7 @@ on:
         type: string
 
 jobs:
-  main:
+  check:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
@@ -20,7 +20,6 @@ jobs:
         run: |
           ref="${{ inputs.ref }}"
           echo "ref=$ref" >> "$GITHUB_OUTPUT"
-          echo "Ref: $ref" >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/checkout@v6
         with:
@@ -31,20 +30,22 @@ jobs:
         run: |
           tag="v$(cargo metadata --format-version 1 --no-deps | jq -r .packages[0].version)"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
-          echo "Tag: $tag" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check tag does not exist
         run: |
           tag="${{ steps.tag.outputs.tag }}"
           if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
             echo "Tag already exists: $tag. Please bump the version first (or delete the existing tag) and retry."
+            echo "Tag exists: $tag" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
+          echo "Ref: ${{ steps.ref.outputs.ref }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Tag: ${{ steps.tag.outputs.tag }}" >> "$GITHUB_STEP_SUMMARY"
 
   publish:
     runs-on: ubuntu-latest
     environment: prod
-    needs: main
+    needs: check
     permissions:
       id-token: write     
       contents: write
@@ -65,10 +66,10 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           persist-credentials: false
-          ref: ${{ needs.main.outputs.ref }}
+          ref: ${{ needs.check.outputs.ref }}
       
       - run: |
-          tag="${{ needs.main.outputs.tag }}"
+          tag="${{ needs.check.outputs.tag }}"
           git tag -a "$tag" -m "Release $tag"
           git push --tags
 
