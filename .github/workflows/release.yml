@@ -96,3 +96,11 @@ jobs:
         env:
           TAG: ${{ needs.check.outputs.tag }}
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Package crate
+        run: cargo package -p ruleset-playground-derive
+
+      - name: Generate SLSA provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: target/package/*.crate
