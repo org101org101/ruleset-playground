@@ -94,7 +94,7 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
 
       - run: |
-          gh release create "${TAG}" --title "${TAG}" --generate-notes --draft
+          gh release create "${TAG}" --title "${TAG}" --generate-notes
         env:
           TAG: ${{ needs.check.outputs.tag }}
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
