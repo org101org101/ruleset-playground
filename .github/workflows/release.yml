@@ -8,6 +8,7 @@ on:
         required: true
         type: choice
         options:
+          - ''
           - ruleset-playground
           - ruleset-playground-derive
       ref:
