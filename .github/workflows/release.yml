@@ -53,7 +53,7 @@ jobs:
             exit 1
           fi
 
-      - run: Cargo publish dry run
+      - name: Cargo publish dry run
         run: |
           cargo publish -p "${{ inputs.crate }}" --dry-run
 
