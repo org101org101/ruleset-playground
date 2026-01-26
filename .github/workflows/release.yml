@@ -51,7 +51,17 @@ jobs:
             echo "Tag exists: $tag" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-          echo "Will tag ${{ steps.meta.outputs.tag }} on ${{ steps.meta.outputs.ref }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - run: Cargo publish dry run
+          cargo publish -p "${{ inputs.crate }}" --dry-run
+
+      - name: Summary
+        run: |
+          echo "Tag: $TAG" >> "$GITHUB_STEP_SUMMARY"
+          echo "Ref: $REF" >> "$GITHUB_STEP_SUMMARY"
+        env:
+          TAG: ${{ steps.meta.outputs.tag }}
+          REF: ${{ steps.meta.outputs.ref }}
 
   publish:
     runs-on: ubuntu-latest
