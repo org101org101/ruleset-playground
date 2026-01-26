@@ -4,5 +4,8 @@ version = "0.4.4"
 edition = "2024"
 license = "MIT"
 description = "playground"
+documentation = "https://github.com/org101org101/ruleset-playground"
+homepage = "https://github.com/org101org101/ruleset-playground"
+repository = "https://github.com/org101org101/ruleset-playground"
 
 [dependencies]
