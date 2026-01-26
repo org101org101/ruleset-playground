@@ -6,3 +6,4 @@ license = "MIT"
 description = "playground"
 
 [dependencies]
+solana-rpc-client = "=3.1.7"
