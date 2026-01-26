@@ -81,6 +81,16 @@ jobs:
           persist-credentials: false
           ref: ${{ needs.check.outputs.ref }}
       
+      - name: Package crate
+        run: cargo package -p ${CRATE_NAME}
+        env:
+          CRATE_NAME: ${{ inputs.crate }}
+
+      - name: Generate SLSA provenance
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: target/package/*.crate
+
       - run: |
           tag="${{ needs.check.outputs.tag }}"
           git tag -a "$tag" -m "Release $tag"
@@ -98,13 +108,3 @@ jobs:
         env:
           TAG: ${{ needs.check.outputs.tag }}
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-
-      - name: Package crate
-        run: cargo package -p ${CRATE_NAME}
-        env:
-          CRATE_NAME: ${{ inputs.crate }}
-
-      - name: Generate SLSA provenance
-        uses: actions/attest-build-provenance@v3
-        with:
-          subject-path: target/package/*.crate
