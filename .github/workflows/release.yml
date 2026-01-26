@@ -54,6 +54,7 @@ jobs:
           fi
 
       - run: Cargo publish dry run
+        run: |
           cargo publish -p "${{ inputs.crate }}" --dry-run
 
       - name: Summary
