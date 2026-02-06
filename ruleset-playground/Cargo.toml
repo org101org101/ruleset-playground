@@ -6,3 +6,4 @@ license = "MIT"
 description = "playground"
 
 [dependencies]
+ruleset-playground-derive = "0.4.8"
