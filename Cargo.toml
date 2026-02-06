@@ -1,3 +1,6 @@
 [workspace]
 members = ["ruleset-playground", "ruleset-playground-derive"]
 resolver = "3"
+
+[patch.crates-io]
+ruleset-playground-derive = { path = "ruleset-playground-derive" }

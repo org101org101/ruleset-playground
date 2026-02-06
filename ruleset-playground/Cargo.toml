@@ -1,9 +1,13 @@
 [package]
 name = "ruleset-playground"
-version = "0.4.8"
+version = "0.4.9"
 edition = "2024"
 license = "MIT"
 description = "playground"
+
+[[bin]]
+name = "rulesetplaycli"
+path = "src/main.rs"
 
 [dependencies]
 ruleset-playground-derive = "0.4.8"
