@@ -6,14 +6,8 @@ version = 4
 name = "ruleset-playground"
 version = "0.4.10"
 dependencies = [
- "ruleset-playground-derive 0.4.8",
+ "ruleset-playground-derive",
 ]
-
-[[package]]
-name = "ruleset-playground-derive"
-version = "0.4.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "035d0abccbdcbda8498a6afd6e36cbb5dfabb4b7b97cbd42b723b0c3712f8435"
 
 [[package]]
 name = "ruleset-playground-derive"
