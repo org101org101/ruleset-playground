@@ -79,7 +79,7 @@ jobs:
     uses: org101org101/actions/.github/workflows/release.yml@main
     needs: check
     with:
-      tag: "${{ steps.meta.outputs.tag }}"
+      tag: "${{ needs.check.outputs.tag }}"
       crate: "${{ inputs.crate }}"
-      ref: "${{ inputs.ref }}"
+      ref: "${{ needs.check.outputs.ref }}"
     secrets: inherit
