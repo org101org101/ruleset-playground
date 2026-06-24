@@ -3,7 +3,7 @@ name: (Pull Request Target)
 on:
   pull_request_target:
     branches:
-      - master
+      - main
     types:
       - opened
       - synchronize
