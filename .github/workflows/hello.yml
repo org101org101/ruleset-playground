@@ -9,6 +9,9 @@ on:
 jobs:
   hello:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Echo hello
-        run: echo hello
+        run: |
+          echo hello
+          exit 1
