@@ -13,4 +13,3 @@ jobs:
       - name: Echo hello
         run: |
           echo hello
-          exit 1
