@@ -3,12 +3,13 @@ name: Hello Workflow
 on:
   push:
     branches: [main]
-  pull_request:
+  pull_request_target:
     branches: [main]
 
 jobs:
   hello:
     runs-on: ubuntu-latest
+    environment: prod
     steps:
       - name: Echo hello
         run: |
